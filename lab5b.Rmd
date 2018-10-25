@@ -81,7 +81,9 @@ accidentjoin2 = left_join(person1, acc, by = c("STATE", "ST_CASE"))
 
 accidentjoin2 %>% filter(SEX == c(1,2)) %>% ggplot(aes(x = DAY_WEEK, fill = as.factor(HOUR.x))) + geom_bar() + facet_grid(~SEX)
 
-
+accidentjoin2 %>% count(DAY_WEEK)
+accidentjoin2 %>% count(HOUR.x)
+accidentjoin2 %>% count(SEX)
 ```
 
 ## Submission
