@@ -43,7 +43,7 @@ names(acc)
 library(ggplot2)
 library(tidyverse)
 
-acc %>% filter(LONGITUD < 0) %>% ggplot(aes(x = LONGITUD, y = LATITUDE)) + geom_point() + xlab("Longitude") + ylab("Latitude")
+acc %>% filter(LONGITUD < 0) %>% ggplot(aes(x = LONGITUD, y = LATITUDE)) + geom_point(size=0.0001) + xlab("Longitude") + ylab("Latitude")
 ```
 
 ## Part one: Accident data
@@ -80,6 +80,7 @@ person1 = person %>% filter(PER_TYP ==1)
 accidentjoin2 = left_join(person1, acc, by = c("STATE", "ST_CASE"))
 
 accidentjoin2 %>% filter(SEX == c(1,2)) %>% ggplot(aes(x = DAY_WEEK, fill = as.factor(HOUR.x))) + geom_bar() + facet_grid(~SEX)
+
 
 ```
 
