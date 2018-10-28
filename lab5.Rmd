@@ -91,6 +91,7 @@ accidentjoin2 %>% filter(SEX == c(1,2)) %>% ggplot(aes(x = DAY_WEEK, fill = as.f
 accidentjoin2 %>% count(DAY_WEEK)
 accidentjoin2 %>% count(HOUR.x)
 accidentjoin2 %>% count(SEX)
+head(accidentjoin2)
 ```
 
 ## Submission
