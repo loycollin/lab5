@@ -3,6 +3,7 @@ title: "lab5"
 author: "Collin Loy, Michelle Cryder"
 date: "October 25, 2018"
 output: html_document
+github: https://github.com/loycollin/lab5
 ---
 
 ```{r setup, include=FALSE}
@@ -39,13 +40,38 @@ Documentation at
 ```{r, echo = FALSE}
 acc <- read.csv("https://raw.githubusercontent.com/DS202-at-ISU/labs/master/data/fars2016/accident.csv", stringsAsFactors = FALSE)
 names(acc)
+
+library(ggplot2)
+library(tidyverse)
+
+acc %>% filter(LONGITUD < 0) %>% ggplot(aes(x = LONGITUD, y = LATITUDE)) + geom_point(size=0.0001) + xlab("Longitude") + ylab("Latitude")
 ```
 
 ## Part one: Accident data
 
 - are there some days of the week where more accidents happen than on others (use variable DAY_WEEK)?
+    + The highest number of accidents occur on Saturday. 
 - what time of the day do accidents happen (use variable HOUR)?
+    + 6:00 PM (Hour 18)
 - what is the number of accidents with at least one drunk driver (use variable DRUNK_DR)?
+    + The number of accidents wiht at least one drunk driver is 8720
+
+```{r}
+
+acc %>% ggplot(aes(x = DAY_WEEK)) + geom_bar() + xlab("Day of the Week") + ylab("Count") + ggtitle("Accidents per Day of the Week")
+DWcount = count(acc, acc$DAY_WEEK)
+DWcount
+
+acc %>% filter(HOUR <= 24) %>% ggplot(aes(x = HOUR)) + geom_bar() + xlab("Hour") + ylab("Count") + ggtitle("Accidents per Hour")
+Hcount = count(acc, acc$HOUR) %>% arrange(desc(n))
+Hcount
+
+acc %>% filter(DRUNK_DR >= 1) %>% ggplot(aes(x = DRUNK_DR)) + geom_bar()
+Dcount = acc %>% filter(DRUNK_DR >= 1) %>% count(DRUNK_DR)
+Dcount
+sum(Dcount$n)
+
+```
 
 ## Part two: Connecting data
 
@@ -53,6 +79,19 @@ names(acc)
 - Join accident and driver table (work out which variable(s) to use)
 - Tally the number of accidents by day of the week (DAY_WEEK), hour of the day (HOUR) and gender (SEX). Visualize the results!
 
+```{r}
+person <- read.csv("https://raw.githubusercontent.com/DS202-at-ISU/labs/master/data/fars2016/person.csv")
+
+person1 = person %>% filter(PER_TYP ==1)
+
+accidentjoin2 = left_join(person1, acc, by = c("STATE", "ST_CASE"))
+
+accidentjoin2 %>% filter(SEX == c(1,2)) %>% ggplot(aes(x = DAY_WEEK, fill = as.factor(HOUR.x))) + geom_bar() + facet_grid(~SEX)
+
+accidentjoin2 %>% count(DAY_WEEK)
+accidentjoin2 %>% count(HOUR.x)
+accidentjoin2 %>% count(SEX)
+```
 
 ## Submission
 
@@ -62,6 +101,8 @@ In Canvas, submit an RMarkdown file (and the knitted html document) with:
   b. a link to the github repo you were working in.
   c. code and answers to all of the questions.
   d. you can upload the data file, but you don't have to
+
+
 
 
 Due date: You have time until Monday at 10 pm to submit the final RMmarkdown file.
