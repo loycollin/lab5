@@ -3,7 +3,6 @@ title: "lab5"
 author: "Collin Loy, Michelle Cryder"
 date: "October 25, 2018"
 output: html_document
-github: https://github.com/loycollin/lab5
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Lab #5: Accident data
 
+github: https://github.com/loycollin/lab5
 
 ## Outline
 
